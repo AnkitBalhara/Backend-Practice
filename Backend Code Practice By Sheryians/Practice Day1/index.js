@@ -37,14 +37,23 @@ app.get('/ejs/fs',(req,res)=>{
     res.render('index',{files:files})
     })
 })
+
+// app.get('/file/:filename',(req,res)=>{
+//     fs.readFile('.')
+// })
+
 app.post('/create',(req,res)=>{
     let data = req.body;
-    fs.writeFile(`./files/${data.title}.txt`,data.details,(err)=>{
-        console.log(err)
+    // This titleName variable is created for camel case for the title.
+    let titleName= data.title.split(' ')[0].toLowerCase() ;
+    for (let i = 1; i < data.title.split(' ').length; i++) {
+        titleName +=  data.title.split(' ')[i][0].toUpperCase()+data.title.split(' ')[i].slice(1,).toLowerCase()
+    }
+    fs.writeFile(`./files/${titleName}.txt`,data.details,(err)=>{
+        // console.log(err)
+        res.redirect('/ejs/fs')
     })
-    fs.readdir('./files',(err,files)=>{
-    res.render('index',{files:files})
-    })
+   
 })
 
 app.listen(PORT,()=>{
