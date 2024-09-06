@@ -3,7 +3,6 @@ const app = express();
 const PORT = 3000;
 const path = require("path");
 const fs = require("fs");
-// const mongoose = require('mongoose');
 const userModel = require("./models/user.model");
 
 app.set("view engine", "ejs");
@@ -32,30 +31,28 @@ app.get("/show", async (req, res) => {
 
 app.get("/delete/:id", async (req, res) => {
   let deleteUser = await userModel.findOneAndDelete({ _id: req.params.id });
-  console.log(deleteUser);
+  // console.log(deleteUser);
   res.redirect("/show");
 });
 
-app.get('/update/:id',async (req,res)=>{
-    let user = await userModel.find({_id: req.params.id})
-
-    res.render('update',{user:user})
-    // console.log(user)
-    // res.send("Jai Shree Ram")
-
-})
+app.get("/update/:id", async (req, res) => {
+  let user = await userModel.find({ _id: req.params.id });
+  res.render("update", { user: user });
+});
 
 app.post("/update/:id", async (req, res) => {
   let updateUser = await userModel.findOneAndUpdate(
     { _id: req.params.id },
-    { $set: {
-        username:res.body.username,
-        number:res.body.number,
-        email:res.body.email,
-        image:res.body.image,
-    } }
+    {
+      $set: {
+        username: req.body.username,
+        number: req.body.number,
+        email: req.body.email,
+        image: req.body.image,
+      },
+    }
   );
-//   console.log(deleteUser)
+  // console.log(updateUser,req.body.username);
   res.redirect("/show");
 });
 

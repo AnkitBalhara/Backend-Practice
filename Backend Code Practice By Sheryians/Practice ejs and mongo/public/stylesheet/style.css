@@ -18,6 +18,8 @@
     margin: 5px;
     border-radius: 10px;
     cursor: pointer;
+    font-size: medium;
+    font-weight:500;
 }
 
 .profile-View{
@@ -61,4 +63,15 @@
     color:   white;
     border-radius: 3px;
     padding:3px;
+}
+
+.update-btn{
+    padding: 5px;
+    background-color: rgb(0, 255, 213);
+    margin: 5px;
+    color: black;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: medium;
+    font-weight:600;
 }

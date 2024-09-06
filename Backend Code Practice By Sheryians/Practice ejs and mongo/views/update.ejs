@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Updating User</title>
+    <link rel="stylesheet" href="../stylesheet/style.css">
+</head>
+
+<body>
+    <h1>Jai Shree Ram</h1>
+    <a class="a-tag" href="/show">Back to Users Page</a>
+
+
+    <% user.forEach((data)=>{ %>
+        <form action="/update/<%= data._id %>" method="post">
+            <div>
+                <label for="username">Name :</label>
+                <input class="inputClass" type="text" name="username" id="username" value="<%= data.username %>"><br>
+                <label for="number">Number :</label>
+                <input class="inputClass" type="number" name="number" id="number" value="<%= data.number %>"><br>
+                <label for="email">Email :</label>
+                <input class="inputClass" type="text" name="email" value="<%= data.email %>" id="email"><br>
+                <label for="image">Image URL :</label>
+                <input class="inputClass" type="text" name="image" id="image" value="<%= data.image %>"><br>
+                <% }) %>
+
+                    <button class="update-btn" type="submit">Update Profile</button>
+                    <button class="btn" type="reset">Reset</button>
+            </div>
+        </form>
+</body>
+
+</html>
