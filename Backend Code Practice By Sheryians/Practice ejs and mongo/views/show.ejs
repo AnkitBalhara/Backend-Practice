@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users Details</title>
+    <link rel="stylesheet" href="../stylesheet/style.css">
+</head>
+<body>
+    <div>
+        <a class="a-tag" href="/">Back to Home</a>
+    </div>
+    <div>
+    <% allusers.map((user)=>{%>
+        <div class="profile-View">
+            <img class="image" src="<%= user.image %>" width="300px"  height="200px" alt="Invalid Url...">
+            <hr>
+            <p>Name :-<%= user.username %></p>
+            <p>Number :-<%= user.number %></p>
+            <p>Email :-<%= user.email %></p>
+            <a class="update" href="/update/<%= user._id %>">Update</a>
+            <a class="a-tag delete" href="/delete/<%= user._id %>">Delete</a>
+        </div>
+    <%})%>
+</div>
+</body>
+</html>
