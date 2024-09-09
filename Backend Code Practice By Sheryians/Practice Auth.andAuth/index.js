@@ -1,61 +1,66 @@
-const cookieParser = require("cookie-parser");
 const express = require("express");
 const app = express();
-const bcrypt = require("bcrypt");
+const path = require("path");
 const PORT = 3000;
-const jwt = require('jsonwebtoken');
 
-app.use(cookieParser());
+const userModel = require("./Models/user.model");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+
+app.set("view engine", "ejs");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-  res.cookie("Name", "Ram");
-  res.send("Jai Shree Ram");
+  res.render("index");
 });
 
-app.get("/encrypt", (req, res) => {
-  // This is the given syantx in docs of npm...
-  // bcrypt.genSalt(saltRounds, function(err, salt) {
-  //     console.log(salt)
-  //     // bcrypt.hash(password, salt, function(err, hash) {
-  //     //     // Store hash in your password DB.
-  //     // });
-  // });
-
-  // This is How it works...
-
-  bcrypt.genSalt(10, function (err, salt) {
-    bcrypt.hash("password", salt, function (err, hash) {
-      console.log(hash);
+app.post("/create", (req, res) => {
+  let { username, email, password, number } = req.body;
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(password, salt, async (err, hash) => {
+      let createdUser = await userModel.create({
+        username,
+        email,
+        password: hash,
+        number,
+      });
+      res.send(createdUser);
     });
   });
-  // Hash Code Created : $2b$10$3haVOKGOTOJBf3NtEopnHu1F2r1NhvKTVwrNfM4e9Zypvu11l5sDe
-
-  res.send(`Jai Shree Ram Jai Baba Ki`);
 });
 
-app.get("/decrypt", (req, res) => {
-  bcrypt.compare(
-    "password",
-    "$2b$10$3haVOKGOTOJBf3NtEopnHu1F2r1NhvKTVwrNfM4e9Zypvu11l5sDe",
-    function (err, result) {
-      // result == true
-      console.log(result);
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+app.post("/login", async (req, res) => {
+  let user = await userModel.findOne({ email: req.body.email });
+  if (!user) {
+    res.send("Something Went Wrong");
+  } else {
+    if (user.email == req.body.email) {
+      bcrypt.compare(req.body.password, user.password, (err, result) => {
+        if (!result) {
+          res.send("Something went wrong...");
+        } else {
+          let token = jwt.sign({ email: user.email }, "sescret");
+          // console.log(token)
+          res.cookie("token",token)
+          res.send("Logined to the Page");
+        }
+      });
+    }else{
+      res.send("Something went wrong...")
     }
-  );
-  res.send(`Jai Shree Ram Jai Baba Ki`);
+  }
 });
 
-app.get('/jwt',(req,res)=>{
-    let token = jwt.sign({email:"JaiShreeRam"},"secret");
-    res.cookie("token",token);
-    console.log(token)
-    res.send(`Jai Shree Ram Jai Baba Ki`);
-})
-
-app.get('/jwt2',(req,res)=>{
-    let data = jwt.verify(req.cookies.token,"secret")
-    console.log(data)
-    res.send(`Jai Shree Ram Jai Baba Ki`);
+app.get('/logout',(req,res)=>{
+  res.cookie("token","")
+  res.redirect('/')
 })
 
 app.listen(PORT, () => {
