@@ -10,7 +10,7 @@ body{
     border-radius: 10px;
     color: white;
 } 
-.btn .a-tag{
+.btn,.a-tag{
     padding: 5px;
     background-color: rgb(0, 195, 254);
     margin: 5px;
