@@ -51,6 +51,7 @@ app.get("/login", (req, res) => {
 app.post("/login", async (req, res) => {
   let { email, password } = req.body;
   let user = await userModel.findOne({ email });
+  // console.log(user)
   // console.log(user.email);
   if (!user) {
     res.render("noEmail", { errorMessage: "The Email Does not Exist!!!" });
@@ -73,12 +74,14 @@ app.get("/logout", (req, res) => {
   res.redirect("login");
 });
 
-app.get("/profile", isLoggedIn, (req, res) => {
-  res.render("profile");
+app.get("/profile", isLoggedIn,async (req, res) => {
+  let { email }  = req.user;
+  let userData =await userModel.findOne({email});
+  res.render("profile",{"userData":userData});
 });
 function isLoggedIn(req, res, next) {
   if (req.cookies.token === "")
-   { return res.status(409).send("You need to Login first!!!");}
+   { return res.redirect('/login');}
   else {
     let data = jwt.verify(req.cookies.token, "secret");
     req.user = data;

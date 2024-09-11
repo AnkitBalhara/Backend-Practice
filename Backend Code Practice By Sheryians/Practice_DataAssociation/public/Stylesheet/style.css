@@ -20,3 +20,49 @@ body{
     font-weight:500;
     color: white;
 }
+
+.post-area{
+    background-color: rgb(32, 31, 31);
+    color: white;
+    font-family:'Courier New', Courier, monospace;
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+}
+
+.createpost{
+    padding: 2px;
+    background-color: white;
+    margin: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: medium;
+    font-weight:500;
+    margin-bottom: 0.5rem;
+}
+
+.logout{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgb(240, 30, 30);
+    padding: 4px;
+    color: white;
+    border-radius: 5px;
+    display: block;
+}
+
+.postContainer{
+    border: 1px double white;
+    border-radius: 10px;
+    width: 50%;
+    padding: 4px;
+    margin: 4px;
+}
+
+.a-tagPost{
+    color: rgb(0, 110, 255);
+    margin: 0px 30px 0px 0px;
+}
+.a-tagPost:hover{
+    color: yellow;
+}
