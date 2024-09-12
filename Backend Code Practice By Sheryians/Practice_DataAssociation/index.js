@@ -114,22 +114,33 @@ app.post("/createpost", isLoggedIn, async (req, res) => {
 app.get("/like/:id", isLoggedIn, async (req, res) => {
   // console.log(req.user) || This could come due to the function isLoggedIn...
   let { userId } = req.user;
-
-
   // console.log(userId)
   // console.log(req.params.id)
   let post = await postModel.findOne({ _id: req.params.id });
-  console.log(post);
+  // console.log(post);
+  
   if (post.likes.indexOf(userId) === -1) {
     post.likes.push(userId);
   } else {
     post.likes.splice(post.likes.indexOf(userId), 1);
   }
+
   await post.save();
-  // console.log(post.likes.length);
   res.redirect("/profile");
-  // res.end()
+
 });
+
+app.get("/edit/:id", isLoggedIn, async (req, res) => {
+  let post =await postModel.findOne({_id:req.params.id})
+  console.log(post)
+  res.render('edit',{post});
+});
+
+app.post('/editpost/:id',isLoggedIn,async (req,res)=>{
+  let post = await postModel.findOneAndUpdate({_id:req.params.id},{content:req.body.content})
+res.redirect('/profile')
+})
+
 
 app.listen(PORT, () => {
   console.log("Server Started...");
