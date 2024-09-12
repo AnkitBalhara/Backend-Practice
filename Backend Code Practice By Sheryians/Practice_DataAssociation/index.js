@@ -118,7 +118,7 @@ app.get("/like/:id", isLoggedIn, async (req, res) => {
   // console.log(req.params.id)
   let post = await postModel.findOne({ _id: req.params.id });
   // console.log(post);
-  
+
   if (post.likes.indexOf(userId) === -1) {
     post.likes.push(userId);
   } else {
@@ -127,20 +127,27 @@ app.get("/like/:id", isLoggedIn, async (req, res) => {
 
   await post.save();
   res.redirect("/profile");
-
 });
 
 app.get("/edit/:id", isLoggedIn, async (req, res) => {
-  let post =await postModel.findOne({_id:req.params.id})
-  console.log(post)
-  res.render('edit',{post});
+  let post = await postModel.findOne({ _id: req.params.id });
+  console.log(post);
+  res.render("edit", { post });
 });
 
-app.post('/editpost/:id',isLoggedIn,async (req,res)=>{
-  let post = await postModel.findOneAndUpdate({_id:req.params.id},{content:req.body.content})
-res.redirect('/profile')
-})
+app.post("/editpost/:id", isLoggedIn, async (req, res) => {
+  let post = await postModel.findOneAndUpdate(
+    { _id: req.params.id },
+    { content: req.body.content }
+  );
+  res.redirect("/profile");
+});
 
+app.get("/delete/:id", isLoggedIn, async (req, res) => {
+  let postToDelete = await postModel.findOneAndDelete({ _id: req.params.id});
+  console.log(postToDelete)
+  res.redirect('/profile')
+});
 
 app.listen(PORT, () => {
   console.log("Server Started...");
