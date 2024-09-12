@@ -74,21 +74,42 @@ app.get("/logout", (req, res) => {
   res.redirect("login");
 });
 
-app.get("/profile", isLoggedIn,async (req, res) => {
-  let { email }  = req.user;
-  let userData =await userModel.findOne({email});
-  res.render("profile",{"userData":userData});
+app.get("/profile", isLoggedIn, async (req, res) => {
+  let { email } = req.user;
+  let userData = await userModel.findOne({ email }).populate("posts");
+  console.log(userData);
+  res.render("profile", { userData: userData });
 });
+
+// Middleware Function.........
 function isLoggedIn(req, res, next) {
-  if (req.cookies.token === "")
-   { return res.redirect('/login');}
-  else {
+  if (req.cookies.token === "") {
+    return res.redirect("/login");
+  } else {
     let data = jwt.verify(req.cookies.token, "secret");
     req.user = data;
     // console.log(data);
     next();
   }
 }
+
+app.post("/createpost", isLoggedIn, async (req, res) => {
+  let userDetails = jwt.verify(req.cookies.token, "secret");
+  // console.log(userDetails,req.body)
+
+  let user = await userModel.findOne({ _id: userDetails.userId });
+  // console.log(user)
+
+  let post = await postModel.create({
+    user: userDetails._id,
+    content: req.body.content,
+  });
+  // console.log(post)
+  user.posts.push(post._id);
+  await user.save();
+
+  res.redirect("/profile");
+});
 
 app.listen(PORT, () => {
   console.log("Server Started...");

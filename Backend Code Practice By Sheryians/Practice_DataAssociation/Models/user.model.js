@@ -13,7 +13,7 @@ let userSchema = mongoose.Schema({
     posts:[
         {
             type : mongoose.Schema.Types.ObjectId,
-            ref : "post.model"
+            ref : "postModel"
         }
     ]
 })

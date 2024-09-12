@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
 
 let postSchema = mongoose.Schema({
-    postDate :String,
     user:{
         type : mongoose.Schema.Types.ObjectId,
-        ref:"user.model"
+        ref:"userModel"
     },
     date:{
         type : Date,
@@ -13,9 +12,9 @@ let postSchema = mongoose.Schema({
     content:String,
     likes:[{
         type : mongoose.Schema.Types.ObjectId,
-        ref:"user.model"
+        ref:"userModel"
     }]
-})
+});
 
 let postModel = mongoose.model("postModel",postSchema);
 
