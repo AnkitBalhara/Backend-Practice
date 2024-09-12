@@ -77,7 +77,7 @@ app.get("/logout", (req, res) => {
 app.get("/profile", isLoggedIn, async (req, res) => {
   let { email } = req.user;
   let userData = await userModel.findOne({ email }).populate("posts");
-  console.log(userData);
+  // console.log(userData);
   res.render("profile", { userData: userData });
 });
 
@@ -109,6 +109,26 @@ app.post("/createpost", isLoggedIn, async (req, res) => {
   await user.save();
 
   res.redirect("/profile");
+});
+
+app.get("/like/:id", isLoggedIn, async (req, res) => {
+  // console.log(req.user) || This could come due to the function isLoggedIn...
+  let { userId } = req.user;
+
+
+  // console.log(userId)
+  // console.log(req.params.id)
+  let post = await postModel.findOne({ _id: req.params.id });
+  console.log(post);
+  if (post.likes.indexOf(userId) === -1) {
+    post.likes.push(userId);
+  } else {
+    post.likes.splice(post.likes.indexOf(userId), 1);
+  }
+  await post.save();
+  // console.log(post.likes.length);
+  res.redirect("/profile");
+  // res.end()
 });
 
 app.listen(PORT, () => {

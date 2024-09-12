@@ -19,7 +19,9 @@
         <div class="postContainer">
             <h4 class="username">@<%= userData.username  %></h4>
             <p> <%= post.content %> </p>
-            <a class="a-tagPost" href="">Like</a>
+
+            <p> <%= post.likes.length %> Likes </p>
+            <a class="a-tagPost" href="/like/<%= post._id %> ">Like</a>
             <a class="a-tagPost" href="">Edit</a>
         </div>
     <% }) %>
