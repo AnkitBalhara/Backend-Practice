@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File</title>
+    <link rel="stylesheet" href="../Stylesheet/style.css">
+</head>
+
+<body>
+    <a style="color: white;" href="/profile"> Back </a>
+    <h2>Profile Pic...</h2>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="multerfile" class="input-box">
+        <button type="submit" class="btn">Update</button>
+        <button style="background-color: red;" type="reset" class="btn">Reset</button>
+    </form>
+</body>
+
+</html>

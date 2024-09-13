@@ -1,34 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
     <link rel="stylesheet" href="../Stylesheet/style.css">
 </head>
+
 <body>
     <a class="logout" href="/logout">Logout</a>
-    <h2>Hi, <%= userData.username %> Welcome ...</h2>
+    <div>
+        <img height="50px" width="50px" style="border-radius: 50%;" src="/uploadfolder/<%= userData.profilepic %> "
+            alt="No">
+        <h2 style="display: inline;position: relative; bottom: 15px;"> Hi, <%= userData.username %> Welcome ...</h2>
+    </div>
     <h4>Write Your Post Here !!!</h4>
     <form action="/createpost" method="post">
         <textarea class="post-area" name="content" id="" cols="40" rows="5"></textarea>
         <br>
         <input class="createpost" type="submit" value="Create Post">
     </form>
+    <a class="a-tag" href="/multer">Update Profile Pic.</a>
+    <a class="a-tag" style="background-color: red;" href="/deleteprofile/<%= userData.profilepic %> ">Delete Profile
+        Pic.</a>
+    <hr>
     <% userData.posts.reverse().forEach(function(post){ %>
         <div class="postContainer">
-            <h4 class="username">@<%= userData.username  %></h4>
-            <p> <%= post.content %> </p>
+            <h4 class="username">@<%= userData.username %>
+            </h4>
+            <p>
+                <%= post.content %>
+            </p>
 
-            <p> <%= post.likes.length %> Likes </p>
+            <p>
+                <%= post.likes.length %> Likes
+            </p>
             <a class="a-tagPost" href="/like/<%= post._id %> ">Like</a>
             <a class="a-tagPost" href="/edit/<%= post._id %>">Edit</a>
             <a class="a-tagPost" href="/delete/<%= post._id %>">Delete</a>
         </div>
-    <% }) %>
-    
-   
-    
-    
+        <% }) %>
 </body>
+
 </html>
