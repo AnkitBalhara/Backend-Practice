@@ -58,7 +58,7 @@ app.post(
 app.get("/deleteprofile/:filename", isLoggedIn, async (req, res) => {
   let user = await userModel.findOne({ email: req.user.email });
   // console.log(req.params.filename)
-  
+
   if (user.profilepic == "user.jpg") {
     return res.redirect("/profile");
   } else {
@@ -206,6 +206,12 @@ app.get("/delete/:id", isLoggedIn, async (req, res) => {
   let postToDelete = await postModel.findOneAndDelete({ _id: req.params.id });
   // console.log(postToDelete)
   res.redirect("/profile");
+});
+
+app.get("/deleteaccount/:email", isLoggedIn, async (req, res) => {
+  let user = await userModel.findOneAndDelete({email : req.params.email});
+  // console.log(user)
+  res.redirect("/");
 });
 
 app.listen(PORT, () => {

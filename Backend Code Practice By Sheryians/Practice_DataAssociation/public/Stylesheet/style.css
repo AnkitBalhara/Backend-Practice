@@ -40,17 +40,6 @@ body{
     margin-bottom: 0.5rem;
 }
 
-.logout{
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: rgb(240, 30, 30);
-    padding: 4px;
-    color: white;
-    border-radius: 5px;
-    display: block;
-}
-
 .postContainer{
     border: 1px double white;
     border-radius: 10px;
@@ -69,4 +58,24 @@ body{
 
 .username{
     color: yellowgreen ;
+}
+.logout{
+    position: absolute;
+    top: 10px;
+    right: 10%;
+    background-color: dimgrey;
+    padding: 4px;
+    color: white;
+    border-radius: 5px;
+    display: block;
+}
+.deleteaccount{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgb(240, 30, 30);
+    padding: 4px;
+    color: white;
+    border-radius: 5px;
+    display: block;
 }
