@@ -11,11 +11,40 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const { error } = require("console");
 
+
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "Public")));
+
+// Multer Practice............
+const multer = require('multer');
+const crypto = require('crypto');
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/uploadfolder/')
+  },
+  filename: function (req, file, cb) {
+    crypto.randomBytes(12,(err,bytes)=>{
+      const fn = bytes.toString("hex") + path.extname(file.originalname)
+      cb(null, fn)
+      console.log(fn)
+    })
+  }
+})
+
+const upload = multer({ storage: storage })
+
+app.get('/multer',(req,res)=>{
+  res.render("test")
+})
+
+app.post('/upload',upload.single('multerfile'),(req,res)=>{
+  console.log(req.file)
+  res.end()
+})
 
 app.get("/", (req, res) => {
   res.render("index");
@@ -145,7 +174,7 @@ app.post("/editpost/:id", isLoggedIn, async (req, res) => {
 
 app.get("/delete/:id", isLoggedIn, async (req, res) => {
   let postToDelete = await postModel.findOneAndDelete({ _id: req.params.id});
-  console.log(postToDelete)
+  // console.log(postToDelete)
   res.redirect('/profile')
 });
 
